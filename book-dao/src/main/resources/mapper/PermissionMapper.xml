@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.le.bookdao.mapper.PermissionMapper">
+  <resultMap id="BaseResultMap" type="com.le.bookdao.entity.Permission" >
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="permission" property="permission" jdbcType="VARCHAR" />
+        <result column="description" property="description" jdbcType="VARCHAR" />
+      <result column="aviliable" property="aviliable" jdbcType="INTEGER"
+  </resultMap>
+  <sql id="Base_Column_List">
+            id ,
+            permission ,
+            description
+  </sql>
+
+
+
+    <select id="selectByRoleIds" parameterType="list" resultMap="BaseResultMap">
+        SELECT
+            p.id,
+            p.aviliable,
+            p.descirption,
+            p.permission
+        FROM
+            permission p
+            INNER JOIN role_permission rp ON rp.permission_id = p.id
+        WHERE
+        <choose>
+            <when test="roleIds != null and roleIds.size != 0">
+                rp.role_id IN
+                <foreach collection="roleIds" close=")" separator="," item="roleId" open="(">
+                    #{roleId,jdbcType=BIGINT}
+                </foreach>
+            </when>
+            <otherwise>
+                1=2
+            </otherwise>
+        </choose>
+    </select>
+
+</mapper>

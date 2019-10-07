@@ -1,0 +1,49 @@
+CREATE TABLE `user` (
+  `username` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `password` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `status` int(2) NOT NULL COMMENT '用户状态',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+
+
+CREATE TABLE `role` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `role` varchar(64) NOT NULL,
+  `description` varchar(200) not NULL,
+  `aviliable` int(2) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+
+CREATE TABLE `permission` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `permission` varchar(100) NOT NULL,
+  `descirption` varchar(255) NOT NULL,
+  `aviliable` int(2) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+
+CREATE TABLE `user_role` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) NOT NULL,
+  `role_id` int(10) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx_user_role` (`user_id`,`role_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+CREATE TABLE `role_permission` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `role_id` int(10) NOT NULL,
+  `permission_id` int(10) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx_role_permission` (`role_id`,`permission_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

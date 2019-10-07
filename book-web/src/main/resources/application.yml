@@ -1,0 +1,26 @@
+server:
+  port: 8090
+  servlet:
+    context-path: /book
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: admin123
+    url: jdbc:mysql://127.0.0.1:3306/levil?serverTimezone=UTC
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+
+systemconfig:
+  exclude-url: /user/login
+
+
+
+
+
+
+
+
