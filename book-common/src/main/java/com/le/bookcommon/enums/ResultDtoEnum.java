@@ -4,6 +4,7 @@ public enum ResultDtoEnum {
 
     SUCCESS(0,"操作成功"),
     ERROR(1,"系统错误"),
+    unauthorized(2,"没有经过授权的操作"),
     ;
 
     private Integer code;
@@ -30,4 +31,5 @@ public enum ResultDtoEnum {
     public void setMsg(String msg) {
         this.msg = msg;
     }
+
 }

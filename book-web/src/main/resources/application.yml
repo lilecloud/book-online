@@ -9,9 +9,13 @@ spring:
     username: root
     password: admin123
     url: jdbc:mysql://127.0.0.1:3306/levil?serverTimezone=UTC
+  redis:
+    host: adfasdfafd
+    port: 6379
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
 
 
 systemconfig:

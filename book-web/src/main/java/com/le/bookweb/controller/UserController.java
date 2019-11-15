@@ -2,13 +2,17 @@ package com.le.bookweb.controller;
 
 import com.le.bookcommon.GlobalStatic;
 import com.le.bookcommon.dto.ResultDto;
+import com.le.bookcommon.enums.ResultDtoEnum;
 import com.le.bookdao.entity.User;
 import com.le.bookservice.user.IUserService;
+import com.le.bookweb.config.RedisConfig;
 import com.le.bookweb.util.ShiroUtils;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.cache.CacheProperties;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,9 +28,13 @@ public class UserController {
     private IUserService userService;
 
 
+    @Autowired
+    private RedisConfig redisConfig;
 
-    @PostMapping("/login")
-    public Object userLogin(@Valid User user){
+
+    @RequestMapping("/login")
+    public Object login(@Valid User user){
+
         Subject subject = ShiroUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(),user.getPassword());
         subject.login(token);
@@ -35,13 +43,29 @@ public class UserController {
         return ResultDto.SUCCESS;
     }
 
+    @RequestMapping("/userLogin")
+    public Object userLogin(){
+        return ResultDto.NO_PRIVILEGE;
+    }
+
+    @RequestMapping("/success")
+    public Object success(){
+        redisConfig.getHost();
+        return ResultDto.SUCCESS;
+    }
+
+    @PostMapping("/unauthorized")
+    public Object unauthorized(){
+        return ResultDtoEnum.unauthorized;
+    }
+
 
     @GetMapping("/current")
     public Object getCurrent(HttpServletRequest request){
         Session session = ShiroUtils.getSession();
         String username = (String) session.getAttribute(GlobalStatic.SESSION_USERNAME);
         User user = userService.selectByUsername(username);
-        return user;
+        return new ResultDto<User>(ResultDtoEnum.SUCCESS,user);
     }
 
     @GetMapping("/{id}")
@@ -52,11 +76,8 @@ public class UserController {
     }
 
 
-    @RequestMapping("/logout/{username}")
-    public Object logOut(@PathVariable("username") String username){
-        if(StringUtils.isEmpty(username)){
-            return ResultDto.ERROR;
-        }
+    @RequestMapping("/logout")
+    public Object logOut(String username){
         Subject subject = ShiroUtils.getSubject();
         subject.logout();
         return ResultDto.SUCCESS;

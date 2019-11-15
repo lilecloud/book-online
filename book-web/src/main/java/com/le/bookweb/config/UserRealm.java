@@ -16,6 +16,9 @@ public class UserRealm extends AuthorizingRealm {
 
 
 
+
+
+
     @Autowired
     private IUserService userService;
 

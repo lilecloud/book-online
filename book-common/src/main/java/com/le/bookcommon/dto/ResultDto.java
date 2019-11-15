@@ -64,9 +64,10 @@ public class ResultDto<T> implements Serializable {
     }
 
 
-    public ResultDto(ResultDtoEnum resultDtoEnum){
+    public ResultDto(ResultDtoEnum resultDtoEnum,T data){
         this.code = resultDtoEnum.getCode();
         this.msg = resultDtoEnum.getMsg();
+        this.data = data;
     }
 
     @Override

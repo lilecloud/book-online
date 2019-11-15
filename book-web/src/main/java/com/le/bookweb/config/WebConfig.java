@@ -28,20 +28,21 @@ public class WebConfig implements WebMvcConfigurer {
     }
 
 
-    @Bean("authorFilter")
-    public FilterRegistrationBean authorFilter(){
-        FilterRegistrationBean registration = new FilterRegistrationBean(new AuthorFilter());
-        registration.addUrlPatterns("/*");
-        registration.setName("authorFilter");
-        Map<String,String> initPara = new HashMap<>(GlobalStatic.THREE);
-        StringBuilder sb = new StringBuilder();
-        sb.append("/user/login");
-        initPara.put("excludeUrl",sb.toString());
-        registration.setInitParameters(initPara);
-        registration.setOrder(2);
-        return registration;
-
-    }
+//    @Bean("authorFilter")
+//    public FilterRegistrationBean authorFilter(){
+//        FilterRegistrationBean registration = new FilterRegistrationBean(new AuthorFilter());
+//        registration.addUrlPatterns("/*");
+//        registration.setName("authorFilter");
+//        Map<String,String> initPara = new HashMap<>(GlobalStatic.THREE);
+//        StringBuilder sb = new StringBuilder();
+//        sb.append("/user/login");
+//        sb.append("/user/success");
+//        initPara.put("excludeUrl",sb.toString());
+//        registration.setInitParameters(initPara);
+//        registration.setOrder(2);
+//        return registration;
+//
+//    }
 
 
 
