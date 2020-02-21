@@ -53,7 +53,7 @@ public class ShiroConfig {
         ShiroFilterFactoryBean shiroFilter = new ShiroFilterFactoryBean();
         shiroFilter.setSecurityManager(securityManager());
         shiroFilter.setLoginUrl("/user/login");
-        shiroFilter.setSuccessUrl("/user/success");
+        shiroFilter.setSuccessUrl("/user/current");
         shiroFilter.setUnauthorizedUrl("/unauthorized");
         Map<String, String> filterChainDefinitionMap = new HashMap<>(3);
         filterChainDefinitionMap.put("/**", DefaultFilter.authc.name());

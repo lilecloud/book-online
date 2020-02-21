@@ -10,6 +10,7 @@ import com.le.bookweb.util.ShiroUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.session.Session;
+import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.cache.CacheProperties;
@@ -48,11 +49,11 @@ public class UserController {
         return ResultDto.NO_PRIVILEGE;
     }
 
-    @RequestMapping("/success")
-    public Object success(){
-        redisConfig.getHost();
-        return ResultDto.SUCCESS;
-    }
+//    @RequestMapping("/success")
+//    public Object success(){
+//        Session session = ShiroUtils.getSession();
+//        return ResultDto.SUCCESS;
+//    }
 
     @PostMapping("/unauthorized")
     public Object unauthorized(){
@@ -65,6 +66,7 @@ public class UserController {
         Session session = ShiroUtils.getSession();
         String username = (String) session.getAttribute(GlobalStatic.SESSION_USERNAME);
         User user = userService.selectByUsername(username);
+        user.setPassword(null);
         return new ResultDto<User>(ResultDtoEnum.SUCCESS,user);
     }
 

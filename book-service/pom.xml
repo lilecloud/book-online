@@ -29,10 +29,7 @@
             <artifactId>book-dao</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.le</groupId>
-            <artifactId>book-common</artifactId>
-        </dependency>
+
 
 
         <dependency>
