@@ -14,14 +14,16 @@ import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.cache.CacheProperties;
+import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.Objects;
 
-@RestController
 @RequestMapping("/user")
+@Controller
 public class UserController {
 
 
@@ -41,10 +43,17 @@ public class UserController {
         subject.login(token);
         Session session = ShiroUtils.getSession();
         session.setAttribute(GlobalStatic.SESSION_USERNAME,user.getUsername());
-        return ResultDto.SUCCESS;
+        return "forward:/user/current";
+    }
+
+    @RequestMapping("/notLogin")
+    @ResponseBody
+    public Object notLogin(){
+        return ResultDto.NOT_LOGIN;
     }
 
     @RequestMapping("/userLogin")
+    @ResponseBody
     public Object userLogin(){
         return ResultDto.NO_PRIVILEGE;
     }
@@ -55,30 +64,41 @@ public class UserController {
 //        return ResultDto.SUCCESS;
 //    }
 
-    @PostMapping("/unauthorized")
+    @RequestMapping("/unauthorized")
+    @ResponseBody
     public Object unauthorized(){
         return ResultDtoEnum.unauthorized;
     }
 
 
-    @GetMapping("/current")
+    @RequestMapping("/current")
+    @ResponseBody
     public Object getCurrent(HttpServletRequest request){
         Session session = ShiroUtils.getSession();
         String username = (String) session.getAttribute(GlobalStatic.SESSION_USERNAME);
         User user = userService.selectByUsername(username);
+        if(Objects.isNull(user)){
+            return ResultDto.NOT_LOGIN;
+        }
         user.setPassword(null);
         return new ResultDto<User>(ResultDtoEnum.SUCCESS,user);
     }
 
-    @GetMapping("/{id}")
+    @RequestMapping("/{id}")
+    @ResponseBody
     public Object getUser(@PathVariable("id") Long id){
         Subject subject = ShiroUtils.getSubject();
         subject.isAuthenticated();
-        return userService.selectById(id);
+        User user = userService.selectById(id);
+        if(Objects.nonNull(user)){
+            user.setPassword(null);
+        }
+        return user;
     }
 
 
     @RequestMapping("/logout")
+    @ResponseBody
     public Object logOut(String username){
         Subject subject = ShiroUtils.getSubject();
         subject.logout();

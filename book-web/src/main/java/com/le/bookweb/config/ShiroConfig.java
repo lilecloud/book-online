@@ -2,6 +2,8 @@ package com.le.bookweb.config;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.cache.CacheManager;
+import org.apache.shiro.mgt.SecurityManager;
+import org.apache.shiro.mgt.SessionsSecurityManager;
 import org.apache.shiro.realm.Realm;
 import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.session.mgt.eis.SessionDAO;
@@ -37,7 +39,7 @@ public class ShiroConfig {
     }
 
     @Bean
-    public DefaultWebSecurityManager securityManager(){
+    public SessionsSecurityManager securityManager(){
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         securityManager.setRealm(userRealm());
         SecurityUtils.setSecurityManager(securityManager);
@@ -52,11 +54,12 @@ public class ShiroConfig {
     public ShiroFilterFactoryBean shiroFilterFactoryBean(){
         ShiroFilterFactoryBean shiroFilter = new ShiroFilterFactoryBean();
         shiroFilter.setSecurityManager(securityManager());
-        shiroFilter.setLoginUrl("/user/login");
+        shiroFilter.setLoginUrl("/user/notLogin");
         shiroFilter.setSuccessUrl("/user/current");
         shiroFilter.setUnauthorizedUrl("/unauthorized");
         Map<String, String> filterChainDefinitionMap = new HashMap<>(3);
         filterChainDefinitionMap.put("/**", DefaultFilter.authc.name());
+        filterChainDefinitionMap.put("/user/login", DefaultFilter.anon.name());
         shiroFilter.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilter;
     }

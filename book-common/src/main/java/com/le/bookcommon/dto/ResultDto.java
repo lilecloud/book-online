@@ -17,7 +17,7 @@ public class ResultDto<T> implements Serializable {
    public static final ResultDto   AUTH_ERROR= new ResultDto(3,"鉴权失败");
    public static final ResultDto    NO_USER=new ResultDto(4,"这个用户不存在");
     public static final ResultDto   INCORRECT_PASSWORD = new ResultDto(5,"密码错误");
-    public static final ResultDto  NOT_LOGIN = new ResultDto(6,"请登录");
+    public static final ResultDto  NOT_LOGIN = new ResultDto(401,"请登录");
 
 
 

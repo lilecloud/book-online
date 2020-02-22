@@ -5,6 +5,7 @@ public enum ResultDtoEnum {
     SUCCESS(0,"操作成功"),
     ERROR(1,"系统错误"),
     unauthorized(2,"没有经过授权的操作"),
+    not_login(401,"请登录后再操作"),
     ;
 
     private Integer code;
